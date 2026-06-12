@@ -8,6 +8,13 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
+    <div id="loginScreen">
+    <h2>Área Restrita</h2>
+    <input type="password" id="adminPassword" placeholder="Senha">
+    <button onclick="checkLogin()">Entrar</button>
+</div>
+
+<div class="admin-container" id="adminPanel" style="display:none;">
     <div class="admin-container">
         <aside class="sidebar">
             <div class="sidebar-header">
@@ -160,5 +167,16 @@
     </div>
 
     <script src="js/admin.js"></script>
-</body>
+</body><script>
+function checkLogin() {
+    const senha = document.getElementById('adminPassword').value;
+
+    if (senha === '123') {
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('adminPanel').style.display = 'flex';
+    } else {
+        alert('Senha incorreta');
+    }
+}
+</script>
 </html>
