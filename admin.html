@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo - Conexão GUBA</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="admin-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Admin GUBA</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#dashboard" class="nav-link active" onclick="switchTab('dashboard')">
+                    <i class="fas fa-chart-line"></i> Dashboard
+                </a>
+                <a href="#avisos" class="nav-link" onclick="switchTab('avisos')">
+                    <i class="fas fa-bell"></i> Avisos
+                </a>
+                <a href="#calendario" class="nav-link" onclick="switchTab('calendario')">
+                    <i class="fas fa-calendar"></i> Calendário
+                </a>
+                <a href="#equipe" class="nav-link" onclick="switchTab('equipe')">
+                    <i class="fas fa-users"></i> Equipe
+                </a>
+                <a href="#submissions" class="nav-link" onclick="switchTab('submissions')">
+                    <i class="fas fa-envelope"></i> Mensagens
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Sair
+                </button>
+            </div>
+        </aside>
+
+        <main class="admin-main">
+            <header class="admin-header">
+                <h1>Painel de Controle GUBA</h1>
+                <div class="header-info">
+                    <span>Admin</span>
+                    <div class="user-avatar">A</div>
+                </div>
+            </header>
+
+            <div class="admin-content">
+                <section id="dashboard" class="tab-content active">
+                    <h2>Dashboard</h2>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon avisos"><i class="fas fa-bell"></i></div>
+                            <div class="stat-info">
+                                <h3>Avisos</h3>
+                                <p id="avisoCount">0</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon eventos"><i class="fas fa-calendar"></i></div>
+                            <div class="stat-info">
+                                <h3>Eventos</h3>
+                                <p id="eventoCount">0</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon mensagens"><i class="fas fa-envelope"></i></div>
+                            <div class="stat-info">
+                                <h3>Mensagens</h3>
+                                <p id="mensagemCount">0</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="avisos" class="tab-content">
+                    <div class="section-header">
+                        <h2>Gerenciar Avisos</h2>
+                        <button class="btn btn-primary" onclick="openAvisoModal()">
+                            <i class="fas fa-plus"></i> Novo Aviso
+                        </button>
+                    </div>
+                    <div id="avisosList" class="items-list"></div>
+                </section>
+
+                <section id="calendario" class="tab-content">
+                    <div class="section-header">
+                        <h2>Gerenciar Calendário</h2>
+                        <button class="btn btn-primary" onclick="openEventoModal()">
+                            <i class="fas fa-plus"></i> Novo Evento
+                        </button>
+                    </div>
+                    <div id="eventosList" class="items-list"></div>
+                </section>
+
+                <section id="equipe" class="tab-content">
+                    <div class="section-header">
+                        <h2>Gerenciar Equipe</h2>
+                        <button class="btn btn-primary" onclick="openMembroModal()">
+                            <i class="fas fa-plus"></i> Novo Membro
+                        </button>
+                    </div>
+                    <div id="membrosList" class="items-list"></div>
+                </section>
+
+                <section id="submissions" class="tab-content">
+                    <h2>Mensagens Recebidas</h2>
+                    <div id="submissionsList" class="items-list"></div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <div id="avisoModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAvisoModal()">&times;</span>
+            <h2>Novo Aviso</h2>
+            <form onsubmit="saveAviso(event)">
+                <input type="text" id="avisoTitle" placeholder="Título" required>
+                <textarea id="avisoContent" placeholder="Conteúdo" rows="5" required></textarea>
+                <select id="avisoCategory" required>
+                    <option value="evento">Evento</option>
+                    <option value="importante">Importante</option>
+                    <option value="manutencao">Manutenção</option>
+                </select>
+                <button type="submit" class="btn btn-primary">Salvar</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="eventoModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeEventoModal()">&times;</span>
+            <h2>Novo Evento</h2>
+            <form onsubmit="saveEvento(event)">
+                <input type="text" id="eventoTitle" placeholder="Título" required>
+                <input type="date" id="eventoDate" required>
+                <select id="eventoType" required>
+                    <option value="prova">Prova</option>
+                    <option value="parcial">Parcial</option>
+                    <option value="palestra">Palestra</option>
+                    <option value="evento">Evento</option>
+                </select>
+                <button type="submit" class="btn btn-primary">Salvar</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="membroModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeMembroModal()">&times;</span>
+            <h2>Novo Membro</h2>
+            <form onsubmit="saveMembro(event)">
+                <input type="text" id="membroName" placeholder="Nome" required>
+                <input type="text" id="membroCargo" placeholder="Cargo" required>
+                <button type="submit" class="btn btn-primary">Salvar</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>
