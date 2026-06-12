@@ -162,3 +162,17 @@
     <script src="js/admin.js"></script>
 </body>
 </html>
+<input type="password" id="senha">
+<button onclick="login()">Entrar</button>
+
+<script>
+function login() {
+    const senha = document.getElementById("senha").value;
+
+    if (senha === "123456") {
+        alert("Acesso permitido");
+    } else {
+        alert("Senha incorreta");
+    }
+}
+</script>
